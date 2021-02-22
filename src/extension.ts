@@ -11,6 +11,7 @@ import { ServerEditorAdapter } from './serverEditorAdapter';
 import { ServerExplorer } from './serverExplorer';
 import * as vscode from 'vscode';
 import { RSPModel } from 'vscode-server-connector-api';
+import sendTelemetry from './telemetry';
 
 let serversExplorer: ServerExplorer;
 let commandHandler: CommandHandler;
@@ -115,6 +116,11 @@ function onDidSaveTextDocument(doc: vscode.TextDocument) {
 function onDidCloseTextDocument(doc: vscode.TextDocument) {
     ServerEditorAdapter.getInstance(serversExplorer).onDidCloseTextDocument(doc);
 }
+
+export function executeCommandAndLog(name: String, command: (...args: any[]) => Promise<any>, thisArg: any, ...params: any[]) {
+    sendTelemetry('thisisatest', {});
+}
+
 
 export function executeCommand(command: (...args: any[]) => Promise<any>, thisArg: any, ...params: any[]) {
     const commandErrorLabel = typeof params[params.length - 1] === 'string' ? params[params.length - 1] : '';
